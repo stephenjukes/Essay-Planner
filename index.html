@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="essayPlanner.css">
+        <title>Essay Planner</title>
+    </head>
+    <body>
+        <h1>Essay Planner</h1>
+
+        <div id="container">
+        <section class="point-list">
+            <h2>Points</h2>
+
+            <div class="controls">
+            <input class="to-add">
+            <button class="add">Add</button>
+            <button class="clear">Clear</button>
+            </div>
+
+            <ul></ul>
+        </section>
+        
+        <section class="question-input">
+            <h2>Question Inputs</h2>
+            <ul class="question-panels"></ul>
+        </section>
+        </div>
+
+        <template class="question-panel">
+        <article class="question-panel-wrapper">
+            <div class="question-panel">
+            <div class="panel-tail"></div>
+
+            <header>
+                <h3 class="question-panel-title"></h3>
+                <button class="close close-question-panel">X</button>
+            </header>
+
+            <ul></ul>
+            </div>
+        </article>
+        </template>
+        
+        <template class="question">
+        <li class="question">
+            <input>
+            <div class="child-count"></div>
+            <button class="panel-trigger">expand</button>
+        </li>
+        </template>
+
+        <script src="essayPlanner.js"></script>
+    </body>
+</html>
