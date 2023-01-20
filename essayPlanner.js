@@ -18,12 +18,12 @@ class JsonHandler {
     console.log(`jsonHandler clearing`);
   }
 
-  handleListClick(e) {
-    console.log(`jsonHandler handling list click`);
+  openPanel(e) {
+    console.log(`jsonHandler opening panel`);
   }
 
-  handleInputClick(e) {
-    console.log(`jsonHandler handling input click`);
+  closePanel(e) {
+    console.log(`jsonHandler closing panel`);
   }
 }
 
@@ -36,12 +36,12 @@ class ListHandler {
     console.log(`listHandler clearing`);
   }
 
-  handleListClick(e) {
-    console.log(`listHandler handling list click`);
+  openPanel(e) {
+    console.log(`listHandler opening panel`);
   }
 
-  handleInputClick(e) {
-    console.log(`listHandler handling input click`);
+  closePanel(e) {
+    console.log(`listHandler closing panel`);
   }
 }
 
@@ -54,12 +54,12 @@ class InputHandler  {
     console.log(`inputHandler clearing`);
   }
 
-  handleListClick(e) {
-    console.log(`inputHandler handling list click`);
+  openPanel(e) {
+    console.log(`inputHandler opening panel`);
   }
 
-  handleInputClick(e) {
-    console.log(`inputHandler handling input click`);
+  closePanel(e) {
+    console.log(`inputHandler closing panel`);
   }
 }
 
@@ -70,21 +70,41 @@ function init() {
     new InputHandler()
   ];
 
-  const abc = {
-    'button.add': (handler, e) => handler.addItem(e),
-    'button.clear': (handler, e) => handler.clearItems(e),
-    'section.point-list': (handler, e) => handler.handleListClick(e),
-    'section.question-input': (handler, e) => handler.handleInputClick(e),
+  const eventHandlers = {
+    'addItem': (handler, e) => handler.addItem(e),
+    'clearItems': (handler, e) => handler.clearItems(e),
+    'openPanel': (handler, e) => handler.openPanel(e),
+    'closePanel': (handler, e) => handler.closePanel(e),
   }
 
-  Object.keys(abc).forEach(querySelector => {
+  document.addEventListener('click', dispatchEventFromClass);
+
+  Object.keys(eventHandlers).forEach(eventType => {
     handlers.forEach(handler => {
-      const element = document.querySelector(querySelector);
-      element.addEventListener('click', e => {
-        abc[querySelector](handler, e);
+      document.addEventListener(eventType, e => {
+        eventHandlers[eventType](handler, e);
       })
     })
   })
+}
+
+function dispatchEventFromClass(e) {
+  const getEventWithClass = {
+    'add': 'addItem',
+    'clear': 'clearItems',
+    'panel-trigger': 'openPanel',
+    'close': 'closePanel'
+  }
+
+  const target =  e.target;
+  
+  const classWithEvent = Object.keys(getEventWithClass)
+    .find(classname => target.classList.contains(classname));
+
+  if (!classWithEvent) return;
+
+  const eventName = getEventWithClass[classWithEvent];
+  document.dispatchEvent(new Event(eventName));
 }
 
 
@@ -228,8 +248,6 @@ function assembleQuestionHierarchy(panelWrapper) {
         ...assembleQuestionHierarchy(childPanelWrapper) 
     } 
   };
-  
-  console.log(result);
  
   return result;
 }
