@@ -1,81 +1,121 @@
-const container = document.querySelector('#container');
-const addInput = document.querySelector('.to-add');
-const addButton  = document.querySelector('.add');
-const pointList = document.querySelector('.point-list ul');
-const clearButton = document.querySelector('.clear');
-const questionPanelTemplate = document.querySelector('template.question-panel');
-const questionTemplate = document.querySelector('template.question');
-const questionPanels = document.querySelector('ul.question-panels');
+// const container = document.querySelector('#container');
+// const addInput = document.querySelector('.to-add');
+// const addButton  = document.querySelector('.add');
+// const pointList = document.querySelector('.point-list ul');
+// const clearButton = document.querySelector('.clear');
+// const questionPanelTemplate = document.querySelector('template.question-panel');
+// const questionTemplate = document.querySelector('template.question');
+// const questionPanels = document.querySelector('ul.question-panels');
+// let items = {};
+
+const elements = {
+  container: document.querySelector('#container'),
+  addInput: document.querySelector('input.to-add'),
+  addButton: document.querySelector('button.add'),
+  itemList: document.querySelector('section.point-list ul'),
+  clearButton: document.querySelector('button.clear'),
+  panelTemplate: document.querySelector('template.question-panel'),
+  questionTemplate: document.querySelector('template.question'),
+  questionPanels: document.querySelector('ul.question-panels'),
+}
+
+const eventHandlers = {
+  'addItem': (handler, e) => handler.addItem(e),
+  'clearItems': (handler, e) => handler.clearItems(e),
+  'openPanel': (handler, e) => handler.openPanel(e),
+  'closePanel': (handler, e) => handler.closePanel(e),
+}
+
 const questions = ['What', 'Why', 'Who', 'How', 'When', 'Where'];
-let items = {};
 
 class JsonHandler {
+  constructor(elements) {
+    this.elements = elements;
+    this.items = {};
+  }
+  
   addItem(e) {
-    console.log(`jsonHandler adding`);
+    const entry = this.elements.addInput.value;
+    
+    if (!entry) return; 
+    this.items[entry] = { entry: entry };
+
+    console.log(this.items);
   }
 
   clearItems(e) {
-    console.log(`jsonHandler clearing`);
+    // console.log(`jsonHandler clearing`);
   }
 
   openPanel(e) {
-    console.log(`jsonHandler opening panel`);
+    // console.log(`jsonHandler opening panel`);
   }
 
   closePanel(e) {
-    console.log(`jsonHandler closing panel`);
+    // console.log(`jsonHandler closing panel`);
   }
 }
 
 class ListHandler {
+  constructor(elements) {
+    this.elements = elements;
+  }
+
   addItem(e) {
-    console.log(`listHandler adding`);
+    const entry = this.elements.addInput.value;
+    this.elements.addInput.value = "";
+    
+    if (!entry) return;
+    // provide feedback?
+    
+    const item = document.createElement('li');
+    item.innerText = entry;
+    item.classList.add('panel-trigger');
+    this.elements.itemList.appendChild(item);
   }
 
   clearItems(e) {
-    console.log(`listHandler clearing`);
+    // console.log(`listHandler clearing`);
   }
 
   openPanel(e) {
-    console.log(`listHandler opening panel`);
+    // console.log(`listHandler opening panel`);
   }
 
   closePanel(e) {
-    console.log(`listHandler closing panel`);
+    // console.log(`listHandler closing panel`);
   }
 }
 
 class InputHandler  {
+  constructor(elements, questions) {
+    this.elements = elements;
+    this.questions = questions;
+  }
+
   addItem(e) {
-    console.log(`inputHandler adding`);
+    // console.log(`inputHandler adding`);
   }
 
   clearItems(e) {
-    console.log(`inputHandler clearing`);
+    // console.log(`inputHandler clearing`);
   }
 
   openPanel(e) {
-    console.log(`inputHandler opening panel`);
+    // console.log(`inputHandler opening panel`);
   }
 
   closePanel(e) {
-    console.log(`inputHandler closing panel`);
+    // console.log(`inputHandler closing panel`);
   }
 }
 
 function init() {
   const handlers = [
-    new JsonHandler(),
-    new ListHandler(),
-    new InputHandler()
+    new JsonHandler(elements),
+    new ListHandler(elements),
+    new InputHandler(elements, questions)
   ];
-
-  const eventHandlers = {
-    'addItem': (handler, e) => handler.addItem(e),
-    'clearItems': (handler, e) => handler.clearItems(e),
-    'openPanel': (handler, e) => handler.openPanel(e),
-    'closePanel': (handler, e) => handler.closePanel(e),
-  }
 
   document.addEventListener('click', dispatchEventFromClass);
 
@@ -110,26 +150,26 @@ function dispatchEventFromClass(e) {
 
 init();
 
-addButton.addEventListener('click', addItem);
-clearButton.addEventListener('click', clearItems);
-pointList.addEventListener('click', handlePointlistClick);
-questionPanels.addEventListener('click',  handleQuestionPanelClick);
+// addButton.addEventListener('click', addItem);
+// clearButton.addEventListener('click', clearItems);
+// pointList.addEventListener('click', handlePointlistClick);
+// questionPanels.addEventListener('click',  handleQuestionPanelClick);
 
-function addItem(e) {
-  const entry = addInput.value;
-  addInput.value = "";
+// function addItem(e) {
+//   const entry = addInput.value;
+//   addInput.value = "";
   
-  if (!entry) return;
-  if (entry in items) return;
-  // provide feedback?
+//   if (!entry) return;
+//   if (entry in items) return;
+//   // provide feedback?
   
-  items[entry] = { entry: entry };
+//   items[entry] = { entry: entry };
   
-  const item = document.createElement('li');
-  item.innerText = entry;
-  item.classList.add('panel-trigger');
-  pointList.appendChild(item);
-}
+//   const item = document.createElement('li');
+//   item.innerText = entry;
+//   item.classList.add('panel-trigger');
+//   pointList.appendChild(item);
+// }
 
 function clearItems(e) {
   pointList.innerHTML = '';
