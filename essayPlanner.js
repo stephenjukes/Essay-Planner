@@ -9,12 +9,86 @@ const questionPanels = document.querySelector('ul.question-panels');
 const questions = ['What', 'Why', 'Who', 'How', 'When', 'Where'];
 let items = {};
 
-addInput.addEventListener('keypress', e => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    addButton.click();
+class JsonHandler {
+  addItem(e) {
+    console.log(`jsonHandler adding`);
   }
-})
+
+  clearItems(e) {
+    console.log(`jsonHandler clearing`);
+  }
+
+  handleListClick(e) {
+    console.log(`jsonHandler handling list click`);
+  }
+
+  handleInputClick(e) {
+    console.log(`jsonHandler handling input click`);
+  }
+}
+
+class ListHandler {
+  addItem(e) {
+    console.log(`listHandler adding`);
+  }
+
+  clearItems(e) {
+    console.log(`listHandler clearing`);
+  }
+
+  handleListClick(e) {
+    console.log(`listHandler handling list click`);
+  }
+
+  handleInputClick(e) {
+    console.log(`listHandler handling input click`);
+  }
+}
+
+class InputHandler  {
+  addItem(e) {
+    console.log(`inputHandler adding`);
+  }
+
+  clearItems(e) {
+    console.log(`inputHandler clearing`);
+  }
+
+  handleListClick(e) {
+    console.log(`inputHandler handling list click`);
+  }
+
+  handleInputClick(e) {
+    console.log(`inputHandler handling input click`);
+  }
+}
+
+function init() {
+  const handlers = [
+    new JsonHandler(),
+    new ListHandler(),
+    new InputHandler()
+  ];
+
+  const abc = {
+    'button.add': (handler, e) => handler.addItem(e),
+    'button.clear': (handler, e) => handler.clearItems(e),
+    'section.point-list': (handler, e) => handler.handleListClick(e),
+    'section.question-input': (handler, e) => handler.handleInputClick(e),
+  }
+
+  Object.keys(abc).forEach(querySelector => {
+    handlers.forEach(handler => {
+      const element = document.querySelector(querySelector);
+      element.addEventListener('click', e => {
+        abc[querySelector](handler, e);
+      })
+    })
+  })
+}
+
+
+init();
 
 addButton.addEventListener('click', addItem);
 clearButton.addEventListener('click', clearItems);
